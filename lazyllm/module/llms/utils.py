@@ -260,7 +260,8 @@ def check_config_map_format(config_map: dict):
 
 def _get_module_config_map(path):
     if not os.path.exists(path): return {}
-    cfg = {k: [v] if isinstance(v, dict) else v for k, v in yaml.safe_load(open(path, 'r')).items()}
+    raw = yaml.safe_load(os.path.expandvars(open(path, 'r').read()))
+    cfg = {k: [v] if isinstance(v, dict) else v for k, v in raw.items()}
     check_config_map_format(cfg)
     return cfg
 
